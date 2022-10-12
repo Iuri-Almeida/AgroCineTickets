@@ -29,4 +29,9 @@ public class MovieController {
         return ResponseEntity.ok().body(movieService.findById(id));
     }
 
+    @GetMapping(value = "/{id}/rated")
+    public ResponseEntity<Integer> rated(@PathVariable UUID id) {
+        return ResponseEntity.ok().body(movieService.rated(id));
+    }
+
 }

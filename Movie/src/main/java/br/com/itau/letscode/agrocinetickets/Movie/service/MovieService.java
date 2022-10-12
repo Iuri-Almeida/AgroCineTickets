@@ -23,4 +23,8 @@ public class MovieService {
         return movieRepository.findById(id).orElseThrow(() -> new MovieNotFoundException("Movie with id = " + id + " not found."));
     }
 
+    public int rated(UUID id) {
+        return this.findById(id).getRated();
+    }
+
 }
