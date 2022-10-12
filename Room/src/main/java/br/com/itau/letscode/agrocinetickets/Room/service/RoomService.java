@@ -21,21 +21,21 @@ public class RoomService {
     }
 
     public void occupySeat(UUID id, int line, int column) {
-        this.validateSeat(id, line, column);
+        if (!this.isSeatOccupied(id, line, column)) {
+            Room room = this.findById(id);
+            room.occupySeat(line, column);
 
-        Room room = this.findById(id);
-        room.occupySeat(line, column);
-
-        this.save(room);
+            this.save(room);
+        }
     }
 
     public void vacateSeat(UUID id, int line, int column) {
-        this.validateSeat(id, line, column);
+        if (this.isSeatOccupied(id, line, column)) {
+            Room room = this.findById(id);
+            room.vacateSeat(line, column);
 
-        Room room = this.findById(id);
-        room.vacateSeat(line, column);
-
-        this.save(room);
+            this.save(room);
+        }
     }
 
     private void validateSeat(UUID id, int line, int column) {
