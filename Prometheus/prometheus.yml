@@ -24,3 +24,9 @@ scrape_configs:
     metrics_path: /actuator/prometheus
     static_configs:
       - targets: [ 'act-movies:8083' ]
+
+  - job_name: 'act-rooms'
+    scrape_interval: 5s
+    metrics_path: /actuator/prometheus
+    static_configs:
+      - targets: [ 'act-rooms:8082' ]
