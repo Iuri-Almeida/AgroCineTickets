@@ -24,5 +24,6 @@ public class Movie {
     private String plot;
     private Long runtime;
     private Long year;
+    private Integer rated;
 
 }
