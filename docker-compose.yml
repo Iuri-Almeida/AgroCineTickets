@@ -1,0 +1,86 @@
+version: "3.3"
+
+services:
+  eureka:
+    container_name: act-eureka
+    build:
+      context: ./Eureka
+      dockerfile: Dockerfile
+    restart: always
+    networks:
+      - backend
+    ports:
+      - '8761:8761'
+
+  movies-db:
+    container_name: act-movies-db
+    image: postgres:14
+    restart: always
+    networks:
+      - backend
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+
+  movies:
+    container_name: act-movies
+    build:
+      context: ./Movie
+      dockerfile: Dockerfile
+    restart: always
+    networks:
+      - backend
+    depends_on:
+      - eureka
+      - movies-db
+
+  gateway:
+    container_name: act-gateway
+    build:
+      context: ./Gateway
+      dockerfile: Dockerfile
+    restart: always
+    networks:
+      - backend
+    ports:
+      - '5000:5000'
+    depends_on:
+      - eureka
+      - movies
+
+  prometheus:
+    container_name: act-prometheus
+    image: prom/prometheus
+    restart: always
+    networks:
+      - backend
+    volumes:
+      - ./Prometheus/:/etc/prometheus/
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    depends_on:
+      - eureka
+      - gateway
+      - movies
+
+  grafana:
+    container_name: act-grafana
+    image: grafana/grafana
+    restart: always
+    networks:
+      - backend
+    ports:
+      - '3000:3000'
+    volumes:
+      - ./Grafana/datasources:/etc/grafana/provisioning/datasources
+      - ./Grafana/dashboards:/etc/grafana/provisioning/dashboards
+    environment:
+      - GF_SERVER_PROTOCOL=http
+      - GF_SERVER_HTTP_PORT=3000
+      - GF_ADMIN_USER=grafana
+      - GF_ADMIN_PASSWORD=grafana
+    depends_on:
+      - prometheus
+
+networks:
+  backend:
