@@ -1,0 +1,29 @@
+spring:
+  application:
+    name: movies-service
+  datasource:
+    url: jdbc:postgresql://act-movies-db:5432/postgres
+    username: postgres
+    password: postgres
+  jpa:
+    generate-ddl: true
+    hibernate:
+      ddl-auto: create-drop
+
+server:
+  port: 8083
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://act-eureka:8761/eureka/
+  instance:
+    hostname: act-movies
