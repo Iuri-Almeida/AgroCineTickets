@@ -34,6 +34,28 @@ services:
       - eureka
       - movies-db
 
+  rooms-db:
+    container_name: act-rooms-db
+    image: postgres:14
+    restart: always
+    networks:
+      - backend
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+
+  rooms:
+    container_name: act-rooms
+    build:
+      context: ./Room
+      dockerfile: Dockerfile
+    restart: always
+    networks:
+      - backend
+    depends_on:
+      - eureka
+      - rooms-db
+
   gateway:
     container_name: act-gateway
     build:
