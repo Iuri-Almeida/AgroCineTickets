@@ -43,11 +43,11 @@ public class TicketService {
         if (!this.isSeatOccupied(session.getRoomId(), line, column)) {
             this.occupySeat(session.getRoomId(), line, column);
 
-            Ticket ticket = new Ticket(null, session.getId(), line, column, TicketStatus.PENDING);
+            Ticket ticket = ticketRepository.save(new Ticket(null, session.getId(), line, column, TicketStatus.PENDING));
 
             template.convertAndSend(RabbitMQConfig.TICKETS_PAYMENTS_DIRECT_EXCHANGE, "", ticket);
 
-            return ticketRepository.save(ticket);
+            return ticket;
         }
 
         throw new SeatIsOccupiedException("Seat with line = " + line + " and column = " + column + " is occupied.");
