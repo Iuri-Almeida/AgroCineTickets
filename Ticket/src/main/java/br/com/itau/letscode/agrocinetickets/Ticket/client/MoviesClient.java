@@ -10,7 +10,7 @@ import java.util.UUID;
 @FeignClient(name = "movies-service")
 public interface MoviesClient {
 
-    @GetMapping(value = "/{id}/rated")
+    @GetMapping(value = "/movies/{id}/rated")
     ResponseEntity<Integer> rated(@PathVariable UUID id);
 
 }
