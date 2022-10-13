@@ -12,14 +12,14 @@ import java.util.UUID;
 @FeignClient(name = "rooms-service")
 public interface RoomsClient {
 
-    @GetMapping(value = "/{id}/isSeatOccupied")
+    @GetMapping(value = "/rooms/{id}/isSeatOccupied")
     ResponseEntity<Boolean> isSeatOccupied(
             @PathVariable UUID id,
             @RequestParam(value = "line", defaultValue = "") int line,
             @RequestParam(value = "column", defaultValue = "") int column
     );
 
-    @PatchMapping(value = "/{id}/occupySeat")
+    @PatchMapping(value = "/rooms/{id}/occupySeat")
     ResponseEntity<Void> occupySeat(
             @PathVariable UUID id,
             @RequestParam(value = "line", defaultValue = "") int line,
