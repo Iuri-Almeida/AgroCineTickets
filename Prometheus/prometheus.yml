@@ -19,11 +19,11 @@ scrape_configs:
     static_configs:
       - targets: [ 'act-gateway:5000' ]
 
-  - job_name: 'act-movies'
+  - job_name: 'act-sessions'
     scrape_interval: 5s
     metrics_path: /actuator/prometheus
     static_configs:
-      - targets: [ 'act-movies:8083' ]
+      - targets: [ 'act-sessions:8081' ]
 
   - job_name: 'act-rooms'
     scrape_interval: 5s
@@ -31,20 +31,20 @@ scrape_configs:
     static_configs:
       - targets: [ 'act-rooms:8082' ]
 
-  - job_name: 'act-sessions'
+  - job_name: 'act-movies'
     scrape_interval: 5s
     metrics_path: /actuator/prometheus
     static_configs:
-      - targets: [ 'act-sessions:8081' ]
-
-  - job_name: 'act-payments'
-    scrape_interval: 5s
-    metrics_path: /actuator/prometheus
-    static_configs:
-      - targets: [ 'act-payments:8085' ]
+      - targets: [ 'act-movies:8083' ]
 
   - job_name: 'act-tickets'
     scrape_interval: 5s
     metrics_path: /actuator/prometheus
     static_configs:
       - targets: [ 'act-tickets:8084' ]
+
+  - job_name: 'act-payments'
+    scrape_interval: 5s
+    metrics_path: /actuator/prometheus
+    static_configs:
+      - targets: [ 'act-payments:8085' ]
