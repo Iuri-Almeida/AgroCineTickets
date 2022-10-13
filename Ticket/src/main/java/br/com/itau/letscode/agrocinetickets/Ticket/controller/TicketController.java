@@ -31,11 +31,11 @@ public class TicketController {
 
     @PostMapping(value = "/commit")
     public ResponseEntity<Ticket> commit(
-            @RequestBody Session session,
+            @RequestParam(value = "sessionId", defaultValue = "") UUID sessionId,
             @RequestParam(value = "line", defaultValue = "") int line,
             @RequestParam(value = "column", defaultValue = "") int column
     ) {
-        Ticket ticket = ticketService.commit(session, line, column);
+        Ticket ticket = ticketService.commit(sessionId, line, column);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(ticket.getId()).toUri();
         return ResponseEntity.created(uri).body(ticket);
     }
