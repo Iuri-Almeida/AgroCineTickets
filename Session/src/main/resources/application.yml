@@ -1,0 +1,29 @@
+spring:
+  application:
+    name: sessions-service
+  datasource:
+    url: jdbc:postgresql://act-sessions-db:5432/postgres
+    username: postgres
+    password: postgres
+  jpa:
+    generate-ddl: true
+    hibernate:
+      ddl-auto: create-drop
+
+server:
+  port: 8081
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://act-eureka:8761/eureka/
+  instance:
+    hostname: act-sessions
