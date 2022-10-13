@@ -37,8 +37,8 @@ public class TicketService {
         return ticketRepository.findById(id).orElseThrow(() -> new TicketNotFoundException("Ticket with id = " + id + " not found."));
     }
 
-    public Ticket commit(Session session, int line, int column) {
-        session = this.findSession(session);
+    public Ticket commit(UUID sessionId, int line, int column) {
+        Session session = this.findSessionById(sessionId);
 
         if (!this.isSeatOccupied(session.getRoomId(), line, column)) {
             this.occupySeat(session.getRoomId(), line, column);
@@ -61,8 +61,8 @@ public class TicketService {
         ticketRepository.save(ticket);
     }
 
-    private Session findSession(Session session) {
-        return Optional.ofNullable(sessionsClient.findById(session.getId()).getBody()).orElseThrow(() -> new SessionNullPointerException("The returned session is null."));
+    private Session findSessionById(UUID id) {
+        return Optional.ofNullable(sessionsClient.findById(id).getBody()).orElseThrow(() -> new SessionNullPointerException("The returned session is null."));
     }
 
     private int rated(UUID id) {
