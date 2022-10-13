@@ -27,6 +27,13 @@ public class Room {
     private Integer lines;
     private boolean[][] seats;
 
+    public Room(UUID id, Integer columns, Integer lines) {
+        this.id = id;
+        this.columns = columns;
+        this.lines = lines;
+        this.seats = new boolean[lines][columns];
+    }
+
     public void occupySeat(int line, int column) {
         this.seats[line][column] = true;
     }
