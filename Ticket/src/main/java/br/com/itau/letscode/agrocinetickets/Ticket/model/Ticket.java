@@ -25,6 +25,8 @@ public class Ticket {
     private UUID id;
 
     private UUID sessionID;
+    private Integer line;
+    private Integer column;
     private TicketStatus status;
 
 }
