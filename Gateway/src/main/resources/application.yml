@@ -18,6 +18,10 @@ spring:
           uri: lb://SESSIONS-SERVICE
           predicates:
             - Path=/sessions/**
+        - id: rooms-service
+          uri: lb://ROOMS-SERVICE
+          predicates:
+            - Path=/rooms/**
 
 server:
   port: 5000
