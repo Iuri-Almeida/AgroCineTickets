@@ -110,6 +110,18 @@ services:
       - eureka
       - tickets-db
 
+  payments:
+    container_name: act-payments
+    build:
+      context: ./Payment
+      dockerfile: Dockerfile
+    restart: always
+    networks:
+      - backend
+    depends_on:
+      - eureka
+      - rabbitmq
+
   gateway:
     container_name: act-gateway
     build:
@@ -123,6 +135,7 @@ services:
     depends_on:
       - eureka
       - movies
+      - tickets
 
   prometheus:
     container_name: act-prometheus
@@ -138,6 +151,8 @@ services:
       - eureka
       - gateway
       - movies
+      - payments
+      - tickets
 
   grafana:
     container_name: act-grafana
