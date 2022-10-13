@@ -17,7 +17,7 @@ public class PaymentsRoomsListener {
     @RabbitListener(queues = RabbitMQConfig.PAYMENTS_ROOMS_QUEUE)
     public void listener(Ticket ticket) {
         Session session = roomService.findSessionById(ticket.getSessionID());
-        roomService.vacateSeat(session.getRoomId(), ticket.getLine(), ticket.getColumn());
+        roomService.vacateSeat(session.getRoomId(), ticket.getLine(), ticket.getCol());
     }
 
 }
