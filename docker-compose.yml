@@ -56,6 +56,28 @@ services:
       - eureka
       - rooms-db
 
+  sessions-db:
+    container_name: act-sessions-db
+    image: postgres:14
+    restart: always
+    networks:
+      - backend
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+
+  sessions:
+    container_name: act-sessions
+    build:
+      context: ./Session
+      dockerfile: Dockerfile
+    restart: always
+    networks:
+      - backend
+    depends_on:
+      - eureka
+      - sessions-db
+
   gateway:
     container_name: act-gateway
     build:
