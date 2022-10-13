@@ -43,7 +43,7 @@ public class TicketService {
         if (!this.isSeatOccupied(session.getRoomId(), line, column)) {
             this.occupySeat(session.getRoomId(), line, column);
 
-            Ticket ticket = new Ticket(null, session.getId(), TicketStatus.PENDING);
+            Ticket ticket = new Ticket(null, session.getId(), line, column, TicketStatus.PENDING);
 
             template.convertAndSend(RabbitMQConfig.TICKETS_PAYMENTS_DIRECT_EXCHANGE, "", ticket);
 
