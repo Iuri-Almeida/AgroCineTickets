@@ -12,6 +12,15 @@ services:
     ports:
       - '8761:8761'
 
+  rabbitmq:
+    container_name: act-rabbitmq
+    image: rabbitmq:3-management
+    restart: always
+    networks:
+      - backend
+    ports:
+      - '15672:15672'
+
   movies-db:
     container_name: act-movies-db
     image: postgres:14
@@ -55,6 +64,7 @@ services:
     depends_on:
       - eureka
       - rooms-db
+      - rabbitmq
 
   sessions-db:
     container_name: act-sessions-db
