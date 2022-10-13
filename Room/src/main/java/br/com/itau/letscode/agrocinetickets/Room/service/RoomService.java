@@ -1,12 +1,16 @@
 package br.com.itau.letscode.agrocinetickets.Room.service;
 
+import br.com.itau.letscode.agrocinetickets.Room.client.SessionClient;
 import br.com.itau.letscode.agrocinetickets.Room.exception.RoomNotFoundException;
 import br.com.itau.letscode.agrocinetickets.Room.exception.SeatOutOfBoundsException;
+import br.com.itau.letscode.agrocinetickets.Room.exception.SessionNullPointerException;
 import br.com.itau.letscode.agrocinetickets.Room.model.Room;
+import br.com.itau.letscode.agrocinetickets.Room.model.Session;
 import br.com.itau.letscode.agrocinetickets.Room.repository.RoomRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -14,6 +18,7 @@ import java.util.UUID;
 public class RoomService {
 
     private final RoomRepository roomRepository;
+    private final SessionClient sessionClient;
 
     public boolean isSeatOccupied(UUID id, int line, int column) {
         this.validateSeat(id, line, column);
@@ -36,6 +41,10 @@ public class RoomService {
 
             this.save(room);
         }
+    }
+
+    public Session findSessionById(UUID id) {
+        return Optional.ofNullable(sessionClient.findById(id).getBody()).orElseThrow(() -> new SessionNullPointerException("The returned session is null."));
     }
 
     private void validateSeat(UUID id, int line, int column) {
