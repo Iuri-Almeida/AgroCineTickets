@@ -78,6 +78,28 @@ services:
       - eureka
       - sessions-db
 
+  tickets-db:
+    container_name: act-tickets-db
+    image: postgres:14
+    restart: always
+    networks:
+      - backend
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+
+  tickets:
+    container_name: act-tickets
+    build:
+      context: ./Ticket
+      dockerfile: Dockerfile
+    restart: always
+    networks:
+      - backend
+    depends_on:
+      - eureka
+      - tickets-db
+
   gateway:
     container_name: act-gateway
     build:
