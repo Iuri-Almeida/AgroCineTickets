@@ -55,7 +55,7 @@ public class RoomController {
         return ResponseEntity.ok().body(roomService.isSeatOccupied(id, line, column));
     }
 
-    @PatchMapping(value = "/{id}/occupySeat")
+    @PutMapping(value = "/{id}/occupySeat")
     public ResponseEntity<Void> occupySeat(
             @PathVariable UUID id,
             @RequestParam(value = "line", defaultValue = "") int line,
@@ -65,7 +65,7 @@ public class RoomController {
         return ResponseEntity.noContent().build();
     }
 
-    @PatchMapping(value = "/{id}/vacateSeat")
+    @PutMapping(value = "/{id}/vacateSeat")
     public ResponseEntity<Void> vacateSeat(
             @PathVariable UUID id,
             @RequestParam(value = "line", defaultValue = "") int line,
