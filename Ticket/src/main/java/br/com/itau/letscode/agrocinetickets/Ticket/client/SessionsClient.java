@@ -11,7 +11,7 @@ import java.util.UUID;
 @FeignClient(name = "sessions-service")
 public interface SessionsClient {
 
-    @GetMapping(value = "/{id}")
+    @GetMapping(value = "/sessions/{id}")
     ResponseEntity<Session> findById(@PathVariable UUID id);
 
 }
