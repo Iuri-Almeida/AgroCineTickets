@@ -1,5 +1,7 @@
 package br.com.itau.letscode.agrocinetickets.Session.service;
 
+import br.com.itau.letscode.agrocinetickets.Session.client.RoomClient;
+import br.com.itau.letscode.agrocinetickets.Session.exception.RoomResourceNullPointerException;
 import br.com.itau.letscode.agrocinetickets.Session.exception.SessionNotFoundException;
 import br.com.itau.letscode.agrocinetickets.Session.model.Session;
 import br.com.itau.letscode.agrocinetickets.Session.repository.SessionRepository;
@@ -15,6 +17,7 @@ import java.util.UUID;
 public class SessionService {
 
     private final SessionRepository sessionRepository;
+    private final RoomClient roomClient;
 
     public List<Session> findAll() {
         return sessionRepository.findAll();
@@ -25,7 +28,10 @@ public class SessionService {
     }
 
     public Session insert(Session session) {
-        return sessionRepository.save(session);
+        int lines = Optional.ofNullable(roomClient.getLines(session.getRoomId()).getBody()).orElseThrow(() -> new RoomResourceNullPointerException("Lines value returned is null."));
+        int columns = Optional.ofNullable(roomClient.getColumns(session.getRoomId()).getBody()).orElseThrow(() -> new RoomResourceNullPointerException("Columns value returned is null."));
+
+        return sessionRepository.save(new Session(null, session.getMovieID(), session.getRoomId(), session.getStartTime(), session.getEndTime(), lines, columns));
     }
 
     public Session update(UUID id, Session session) {
