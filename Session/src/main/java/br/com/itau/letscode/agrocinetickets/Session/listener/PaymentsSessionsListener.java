@@ -1,7 +1,6 @@
 package br.com.itau.letscode.agrocinetickets.Session.listener;
 
 import br.com.itau.letscode.agrocinetickets.Session.config.RabbitMQConfig;
-import br.com.itau.letscode.agrocinetickets.Session.model.Session;
 import br.com.itau.letscode.agrocinetickets.Session.model.Ticket;
 import br.com.itau.letscode.agrocinetickets.Session.service.SessionService;
 import lombok.RequiredArgsConstructor;
@@ -16,8 +15,7 @@ public class PaymentsSessionsListener {
 
     @RabbitListener(queues = RabbitMQConfig.PAYMENTS_SESSIONS_QUEUE)
     public void listener(Ticket ticket) {
-        Session session = sessionService.findById(ticket.getSessionID());
-        sessionService.vacateSeat(session.getRoomId(), ticket.getLine(), ticket.getCol());
+        sessionService.vacateSeat(ticket.getSessionID(), ticket.getLine(), ticket.getCol());
     }
 
 }
