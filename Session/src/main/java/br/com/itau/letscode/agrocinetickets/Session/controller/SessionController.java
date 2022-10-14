@@ -46,4 +46,33 @@ public class SessionController {
         return ResponseEntity.noContent().build();
     }
 
+    @GetMapping(value = "/{id}/isSeatOccupied")
+    public ResponseEntity<Boolean> isSeatOccupied(
+            @PathVariable UUID id,
+            @RequestParam(value = "line", defaultValue = "") int line,
+            @RequestParam(value = "column", defaultValue = "") int column
+    ) {
+        return ResponseEntity.ok().body(sessionService.isSeatOccupied(id, line, column));
+    }
+
+    @PutMapping(value = "/{id}/occupySeat")
+    public ResponseEntity<Void> occupySeat(
+            @PathVariable UUID id,
+            @RequestParam(value = "line", defaultValue = "") int line,
+            @RequestParam(value = "column", defaultValue = "") int column
+    ) {
+        sessionService.occupySeat(id, line, column);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping(value = "/{id}/vacateSeat")
+    public ResponseEntity<Void> vacateSeat(
+            @PathVariable UUID id,
+            @RequestParam(value = "line", defaultValue = "") int line,
+            @RequestParam(value = "column", defaultValue = "") int column
+    ) {
+        sessionService.vacateSeat(id, line, column);
+        return ResponseEntity.noContent().build();
+    }
+
 }
