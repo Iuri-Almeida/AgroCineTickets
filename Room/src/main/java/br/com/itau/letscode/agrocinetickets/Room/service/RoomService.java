@@ -1,11 +1,7 @@
 package br.com.itau.letscode.agrocinetickets.Room.service;
 
-import br.com.itau.letscode.agrocinetickets.Room.client.SessionClient;
 import br.com.itau.letscode.agrocinetickets.Room.exception.RoomNotFoundException;
-import br.com.itau.letscode.agrocinetickets.Room.exception.SeatOutOfBoundsException;
-import br.com.itau.letscode.agrocinetickets.Room.exception.SessionNullPointerException;
 import br.com.itau.letscode.agrocinetickets.Room.model.Room;
-import br.com.itau.letscode.agrocinetickets.Room.model.Session;
 import br.com.itau.letscode.agrocinetickets.Room.repository.RoomRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,7 +15,6 @@ import java.util.UUID;
 public class RoomService {
 
     private final RoomRepository roomRepository;
-    private final SessionClient sessionClient;
 
     public List<Room> findAll() {
         return roomRepository.findAll();
@@ -43,33 +38,6 @@ public class RoomService {
         roomRepository.deleteById(id);
     }
 
-    public boolean isSeatOccupied(UUID id, int line, int column) {
-        this.validateSeat(id, line, column);
-        return this.findById(id).getSeats()[line][column];
-    }
-
-    public void occupySeat(UUID id, int line, int column) {
-        if (!this.isSeatOccupied(id, line, column)) {
-            Room room = this.findById(id);
-            room.occupySeat(line, column);
-
-            roomRepository.save(room);
-        }
-    }
-
-    public void vacateSeat(UUID id, int line, int column) {
-        if (this.isSeatOccupied(id, line, column)) {
-            Room room = this.findById(id);
-            room.vacateSeat(line, column);
-
-            roomRepository.save(room);
-        }
-    }
-
-    public Session findSessionById(UUID id) {
-        return Optional.ofNullable(sessionClient.findById(id).getBody()).orElseThrow(() -> new SessionNullPointerException("The returned session is null."));
-    }
-
     private void updateData(Room dbRoom, Room room) {
         if (Optional.ofNullable(room.getColumns()).isPresent()) {
             dbRoom.setColumns(room.getColumns());
@@ -79,35 +47,6 @@ public class RoomService {
             dbRoom.setLines(room.getLines());
         }
 
-    }
-
-    private void validateSeat(UUID id, int line, int column) {
-        this.validateLine(id, line);
-        this.validateColumn(id, column);
-    }
-
-    private void validateLine(UUID id, int line) {
-        if (this.isLessThanZero(line) || this.isLineGreaterThanTotal(id, line)) {
-            throw new SeatOutOfBoundsException("The line = " + line + " does not exist.");
-        }
-    }
-
-    private void validateColumn(UUID id, int column) {
-        if (this.isLessThanZero(column) || this.isColumnGreaterThanTotal(id, column)) {
-            throw new SeatOutOfBoundsException("The column = " + column + " does not exist.");
-        }
-    }
-
-    private boolean isLessThanZero(int value) {
-        return value < 0;
-    }
-
-    private boolean isLineGreaterThanTotal(UUID id, int line) {
-        return line - 1 > this.findById(id).getLines();
-    }
-
-    private boolean isColumnGreaterThanTotal(UUID id, int column) {
-        return column - 1 > this.findById(id).getColumns();
     }
 
 }
