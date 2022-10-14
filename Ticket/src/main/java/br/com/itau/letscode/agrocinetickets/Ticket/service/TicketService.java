@@ -1,7 +1,6 @@
 package br.com.itau.letscode.agrocinetickets.Ticket.service;
 
 import br.com.itau.letscode.agrocinetickets.Ticket.client.MoviesClient;
-import br.com.itau.letscode.agrocinetickets.Ticket.client.RoomsClient;
 import br.com.itau.letscode.agrocinetickets.Ticket.client.SessionsClient;
 import br.com.itau.letscode.agrocinetickets.Ticket.config.RabbitMQConfig;
 import br.com.itau.letscode.agrocinetickets.Ticket.exception.SeatIsOccupiedException;
@@ -24,7 +23,6 @@ import java.util.UUID;
 public class TicketService {
 
     private final TicketRepository ticketRepository;
-    private final RoomsClient roomsClient;
     private final MoviesClient moviesClient;
     private final SessionsClient sessionsClient;
     private final RabbitTemplate template;
@@ -70,11 +68,11 @@ public class TicketService {
     }
 
     private boolean isSeatOccupied(UUID id, int line, int column) {
-        return Boolean.TRUE.equals(roomsClient.isSeatOccupied(id, line, column).getBody());
+        return Boolean.TRUE.equals(sessionsClient.isSeatOccupied(id, line, column).getBody());
     }
 
     private void occupySeat(UUID id, int line, int column) {
-        roomsClient.occupySeat(id, line, column);
+        sessionsClient.occupySeat(id, line, column);
     }
 
 }
