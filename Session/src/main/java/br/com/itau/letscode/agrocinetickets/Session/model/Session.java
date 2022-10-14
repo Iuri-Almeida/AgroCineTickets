@@ -28,5 +28,23 @@ public class Session {
     private UUID roomId;
     private LocalTime startTime;
     private LocalTime endTime;
+    private boolean[][] seats;
+
+    public Session(UUID id, UUID movieID, UUID roomId, LocalTime startTime, LocalTime endTime, int lines, int columns) {
+        this.id = id;
+        this.movieID = movieID;
+        this.roomId = roomId;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.seats = new boolean[lines][columns];
+    }
+
+    public void occupySeat(int line, int column) {
+        this.seats[line][column] = true;
+    }
+
+    public void vacateSeat(int line, int column) {
+        this.seats[line][column] = false;
+    }
 
 }
