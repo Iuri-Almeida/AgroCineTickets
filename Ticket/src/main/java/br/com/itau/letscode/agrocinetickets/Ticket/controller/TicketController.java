@@ -1,6 +1,5 @@
 package br.com.itau.letscode.agrocinetickets.Ticket.controller;
 
-import br.com.itau.letscode.agrocinetickets.Ticket.model.Session;
 import br.com.itau.letscode.agrocinetickets.Ticket.model.Ticket;
 import br.com.itau.letscode.agrocinetickets.Ticket.service.TicketService;
 import lombok.RequiredArgsConstructor;
