@@ -15,8 +15,8 @@ public class RabbitMQConfig {
 
     public static final String PAYMENTS_TICKETS_QUEUE_AND_DIRECT_EXCHANGE = "payments.tickets";
     public static final String TICKETS_PAYMENTS_QUEUE = "tickets.payments";
-    public static final String PAYMENTS_ROOMS_QUEUE = "payments.rooms";
-    public static final String PAYMENTS_TICKETS_ROOMS_FANOUT_EXCHANGE = "payments.tickets_rooms";
+    public static final String PAYMENTS_SESSIONS_QUEUE = "payments.sessions";
+    public static final String PAYMENTS_TICKETS_SESSIONS_FANOUT_EXCHANGE = "payments.tickets_sessions";
 
     @Value("${spring.rabbitmq.host}")
     String host;
@@ -42,7 +42,7 @@ public class RabbitMQConfig {
 
     @Bean
     public FanoutExchange paymentsTicketsAndRoomsExchange() {
-        return new FanoutExchange(PAYMENTS_TICKETS_ROOMS_FANOUT_EXCHANGE);
+        return new FanoutExchange(PAYMENTS_TICKETS_SESSIONS_FANOUT_EXCHANGE);
     }
 
     @Bean
@@ -52,7 +52,7 @@ public class RabbitMQConfig {
 
     @Bean
     public Queue paymentsRoomsQueue() {
-        return new Queue(PAYMENTS_ROOMS_QUEUE);
+        return new Queue(PAYMENTS_SESSIONS_QUEUE);
     }
 
     @Bean

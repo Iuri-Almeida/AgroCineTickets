@@ -26,7 +26,7 @@ public class TicketsPaymentsListener {
             exchange = RabbitMQConfig.PAYMENTS_TICKETS_QUEUE_AND_DIRECT_EXCHANGE;
         } else {
             ticket.setStatus(TicketStatus.ERROR);
-            exchange = RabbitMQConfig.PAYMENTS_TICKETS_ROOMS_FANOUT_EXCHANGE;
+            exchange = RabbitMQConfig.PAYMENTS_TICKETS_SESSIONS_FANOUT_EXCHANGE;
         }
 
         template.convertAndSend(exchange, "", ticket);
