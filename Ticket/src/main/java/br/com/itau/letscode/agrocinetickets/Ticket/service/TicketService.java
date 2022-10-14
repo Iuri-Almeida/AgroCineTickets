@@ -38,8 +38,8 @@ public class TicketService {
     public Ticket commit(UUID sessionId, int line, int column) {
         Session session = this.findSessionById(sessionId);
 
-        if (!this.isSeatOccupied(session.getRoomId(), line, column)) {
-            this.occupySeat(session.getRoomId(), line, column);
+        if (!this.isSeatOccupied(sessionId, line, column)) {
+            this.occupySeat(sessionId, line, column);
 
             Ticket ticket = ticketRepository.save(new Ticket(null, session.getId(), line, column, TicketStatus.PENDING));
 
