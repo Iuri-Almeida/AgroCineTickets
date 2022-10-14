@@ -65,14 +65,4 @@ public class SessionController {
         return ResponseEntity.noContent().build();
     }
 
-    @PutMapping(value = "/{id}/vacateSeat")
-    public ResponseEntity<Void> vacateSeat(
-            @PathVariable UUID id,
-            @RequestParam(value = "line", defaultValue = "") int line,
-            @RequestParam(value = "column", defaultValue = "") int column
-    ) {
-        sessionService.vacateSeat(id, line, column);
-        return ResponseEntity.noContent().build();
-    }
-
 }
