@@ -38,6 +38,14 @@ public class RoomService {
         roomRepository.deleteById(id);
     }
 
+    public int getLines(UUID id) {
+        return this.findById(id).getLines();
+    }
+
+    public int getColumns(UUID id) {
+        return this.findById(id).getColumns();
+    }
+
     private void updateData(Room dbRoom, Room room) {
         if (Optional.ofNullable(room.getColumns()).isPresent()) {
             dbRoom.setColumns(room.getColumns());

@@ -46,4 +46,14 @@ public class RoomController {
         return ResponseEntity.noContent().build();
     }
 
+    @GetMapping(value = "/rooms/{id}/lines")
+    ResponseEntity<Integer> getLines(@PathVariable UUID id) {
+        return ResponseEntity.ok().body(roomService.getLines(id));
+    }
+
+    @GetMapping(value = "/rooms/{id}/columns")
+    ResponseEntity<Integer> getColumns(@PathVariable UUID id) {
+        return ResponseEntity.ok().body(roomService.getColumns(id));
+    }
+
 }
